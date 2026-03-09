@@ -52,6 +52,12 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pip-
 
+      - name: Install Dependencies
+        run: |
+          pushd ${SRC_NAME} &&
+          pip install -U -r requirements.txt >/dev/null 2>&1
+          popd
+
       - name: Run script douban
         if: github.event.schedule == '30 4 * * 1'
         run: |
@@ -71,7 +77,7 @@ jobs:
         if: github.event.schedule == '30 4 * * 3'
         run: |
           pushd ${SRC_NAME} &&
-          bash scripts/run-top.sh letterboxd  &&
+          # bash scripts/run-top.sh letterboxd  &&
           bash scripts/run-top.sh metacritic  &&
           popd
 
